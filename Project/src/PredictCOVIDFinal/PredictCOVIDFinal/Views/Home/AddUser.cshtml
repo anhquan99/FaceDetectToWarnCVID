@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@model PredictCOVIDFinal.Models.FileModel*@
+<form class="form-horizontal" action="@Url.Action("AddUserPost","Home")" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" placeholder="NAME">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Files</label>
+        <div class="col-sm-10">
+            @*@Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })*@
+            @*<input type="file" name="files" class="form-control" id="Files" placeholder="Files" multiple="multiple">*@
+            <input type="file" name="files" placeholder="Files" multiple="multiple" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">ADD</button>
+        </div>
+    </div>
+</form>
+

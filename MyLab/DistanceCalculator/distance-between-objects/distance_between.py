@@ -45,7 +45,7 @@ cnts = imutils.grab_contours(cnts)
 colors = ((0, 0, 255), (240, 0, 159), (0, 165, 255), (255, 255, 0),
 	(255, 0, 255))
 refObj = None
-
+print((cnts, _))
 # loop over the contours individually
 for c in cnts:
 	# if the contour is not sufficiently large, ignore it
@@ -103,7 +103,7 @@ for c in cnts:
 		cv2.circle(orig, (int(xB), int(yB)), 5, color, -1)
 		cv2.line(orig, (int(xA), int(yA)), (int(xB), int(yB)),
 			color, 2)
-
+		
 		# compute the Euclidean distance between the coordinates,
 		# and then convert the distance in pixels to distance in
 		# units

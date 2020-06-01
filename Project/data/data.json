@@ -1,0 +1,6 @@
+{
+    "face_avg": 7,
+    "contact_range": 72,
+    "mask_lower_percent" : 75,
+    "wrong_count": 5
+}

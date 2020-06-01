@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "AddEffected";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .tableImg {
+        max-height: 100px;
+        max-width: 100px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark" style="background:#343a40; color: #fff">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">IMAGE</th>
+                    <th scope="col">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < ViewBag.data.Count; i++)
+                {
+                    <tr>
+                        <th scope="row">@(i + 1)</th>
+                        <td>@ViewBag.data[i].NAME</td>
+                        <td><img class="tableImg" src="@Url.Action("showImg", "img", new { id = ViewBag.data[i].NAME })" /></td>
+                        <td><a href="@Url.Action("AddEffectedForm","Home", new { name = ViewBag.data[i].NAME})">SET EFFECTED</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

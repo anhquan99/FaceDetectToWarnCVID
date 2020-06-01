@@ -62,10 +62,10 @@ for c in cnts:
         (tl, tr, br, bl) = box
         (tlblX, tlblY) = midpoint(tl, bl)
         (trbrX, trbrY) = midpoint(tr, br)
-
         # compute the Euclidean distance between the midpoints,
 		# then construct the reference object
         D = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+        print("D: " , (tlblX, tlblY), " + ", (trbrX, trbrY))
         # args["width"]
         refObj = (box, (cX, cY), D / 0.955)
         continue
@@ -90,6 +90,7 @@ for c in cnts:
 		# and then convert the distance in pixels to distance in
 		# units
         D = dist.euclidean((xA, yA), (xB, yB)) / refObj[2]
+        print("distance: ", D)
         (mX, mY) = midpoint((xA, yA), (xB, yB))
         cv2.putText(orig, "{:.1f}in".format(D), (int(mX), int(mY - 10)),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.55, color, 2)

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PREDICT_COVIDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ANALYZED_PREDICTION">
+    <Key>
+      <PropertyRef Name="NAME" />
+      <PropertyRef Name="AT_TIME" />
+    </Key>
+    <Property Name="NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AT_TIME" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PERDICT_PER" Type="Double" Nullable="false" />
+    <Property Name="STATUS" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="Self.AN_PE_NAME" FromRole="ANALYZED_PREDICTION" ToRole="PEOPLE" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="NAME" />
+    </Key>
+    <Property Name="NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PHOTO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ANALYZED_PREDICTION" Relationship="Self.AN_PE_NAME" FromRole="PEOPLE" ToRole="ANALYZED_PREDICTION" />
+    <NavigationProperty Name="PREDICTIONs" Relationship="Self.PRE_PE_OTHER" FromRole="PEOPLE" ToRole="PREDICTION" />
+    <NavigationProperty Name="PREDICTIONs1" Relationship="Self.PRE_PE_REF" FromRole="PEOPLE" ToRole="PREDICTION" />
+  </EntityType>
+  <EntityType Name="PREDICTION">
+    <Key>
+      <PropertyRef Name="REF" />
+      <PropertyRef Name="OTHER" />
+      <PropertyRef Name="AT_TIME" />
+    </Key>
+    <Property Name="REF" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OTHER" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PREDICT_PER" Type="Double" Nullable="false" />
+    <Property Name="AT_TIME" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Person" Relationship="Self.PRE_PE_OTHER" FromRole="PREDICTION" ToRole="PEOPLE" />
+    <NavigationProperty Name="Person1" Relationship="Self.PRE_PE_REF" FromRole="PREDICTION" ToRole="PEOPLE" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="AN_PE_NAME">
+    <End Role="PEOPLE" Type="Self.Person" Multiplicity="1" />
+    <End Role="ANALYZED_PREDICTION" Type="Self.ANALYZED_PREDICTION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PEOPLE">
+        <PropertyRef Name="NAME" />
+      </Principal>
+      <Dependent Role="ANALYZED_PREDICTION">
+        <PropertyRef Name="NAME" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PRE_PE_OTHER">
+    <End Role="PEOPLE" Type="Self.Person" Multiplicity="1" />
+    <End Role="PREDICTION" Type="Self.PREDICTION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PEOPLE">
+        <PropertyRef Name="NAME" />
+      </Principal>
+      <Dependent Role="PREDICTION">
+        <PropertyRef Name="OTHER" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PRE_PE_REF">
+    <End Role="PEOPLE" Type="Self.Person" Multiplicity="1" />
+    <End Role="PREDICTION" Type="Self.PREDICTION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PEOPLE">
+        <PropertyRef Name="NAME" />
+      </Principal>
+      <Dependent Role="PREDICTION">
+        <PropertyRef Name="REF" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PREDICT_COVIDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ANALYZED_PREDICTION" EntityType="Self.ANALYZED_PREDICTION" />
+    <EntitySet Name="PEOPLE" EntityType="Self.Person" />
+    <EntitySet Name="PREDICTIONs" EntityType="Self.PREDICTION" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="AN_PE_NAME" Association="Self.AN_PE_NAME">
+      <End Role="PEOPLE" EntitySet="PEOPLE" />
+      <End Role="ANALYZED_PREDICTION" EntitySet="ANALYZED_PREDICTION" />
+    </AssociationSet>
+    <AssociationSet Name="PRE_PE_OTHER" Association="Self.PRE_PE_OTHER">
+      <End Role="PEOPLE" EntitySet="PEOPLE" />
+      <End Role="PREDICTION" EntitySet="PREDICTIONs" />
+    </AssociationSet>
+    <AssociationSet Name="PRE_PE_REF" Association="Self.PRE_PE_REF">
+      <End Role="PEOPLE" EntitySet="PEOPLE" />
+      <End Role="PREDICTION" EntitySet="PREDICTIONs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

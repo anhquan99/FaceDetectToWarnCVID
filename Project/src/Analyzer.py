@@ -16,7 +16,9 @@ def analyzePercentByContactRange(distance, maskRef, maskOther):
     # if percent of contact is higher than 100% ten make it 100%
     if percentDis > 100: percentDis = 100
     # finnal calculation 
-    return percentDis - percentArgMask
+    finalCalculate = percentDis - percentArgMask
+    if finalCalculate < 0: finalCalculate = 0
+    return finalCalculate
 
 # analyze wrong prdiction by count percent
 def analyzeWrongPrediction(AnalyzedFacesArr):

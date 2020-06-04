@@ -8,34 +8,41 @@ namespace PredictCOVIDFinal.Service
 {
     public class UserService
     {
-        private PREDICT_COVIDEntities db;
         public List<Person> findAll()
         {
-            return db.PEOPLE.ToList();
+            using (PREDICT_COVIDEntities db = new PREDICT_COVIDEntities())
+            {
+                return db.PEOPLE.ToList();
+            }
         }
         public bool create(Person p)
         {
-            db.PEOPLE.Add(p);
-            if (db.SaveChanges() == 0) return false;
-            return true;
+            using (PREDICT_COVIDEntities db = new PREDICT_COVIDEntities())
+            {
+                db.PEOPLE.Add(p);
+                if (db.SaveChanges() == 0) return false;
+                return true;
+            }
         }
         public Person findByName(String personName)
         {
-            var selected = (from p in db.PEOPLE where p.NAME == personName select p).SingleOrDefault();
-            return selected;
-        }
-        public UserService()
-        {
-            this.db = new PREDICT_COVIDEntities();
+            using (PREDICT_COVIDEntities db = new PREDICT_COVIDEntities())
+            {
+                var selected = (from p in db.PEOPLE where p.NAME == personName select p).SingleOrDefault();
+                return selected;
+            }
         }
         public List<Person> findNotEffected()
         {
-            List<Person> notEffectedList = new List<Person>();
-            foreach(var i in db.findNotEffected())
+            using (PREDICT_COVIDEntities db = new PREDICT_COVIDEntities())
             {
-                notEffectedList.Add((from p in db.PEOPLE where p.NAME == i select p).Single());
+                List<Person> notEffectedList = new List<Person>();
+                foreach (var i in db.findNotEffected())
+                {
+                    notEffectedList.Add((from p in db.PEOPLE where p.NAME == i select p).Single());
+                }
+                return notEffectedList;
             }
-            return notEffectedList;
         }
     }
 }
